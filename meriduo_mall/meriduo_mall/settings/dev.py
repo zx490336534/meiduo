@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',  # DRF
+    'users.apps.UsersConfig'  # 用户模块
 ]
 
 MIDDLEWARE = [
@@ -188,3 +189,6 @@ REST_FRAMEWORK = {
     # 异常处理
     'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
 }
+
+# 修改Django认证系统的用户模型类
+AUTH_USER_MODEL = 'users.User'
