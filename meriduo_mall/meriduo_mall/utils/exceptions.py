@@ -17,8 +17,8 @@ logger = logging.getLogger('django')
 def exception_handler(exc, context):
     """
     自定义异常处理
-    :param exc: 异常
-    :param context: 抛出异常的上下文
+    :param exc: 异常实例对象
+    :param context: 抛出异常的上下文（包含request和view对象）
     :return: Response响应对象
     """
     # 调用drf框架原生的异常处理方法
