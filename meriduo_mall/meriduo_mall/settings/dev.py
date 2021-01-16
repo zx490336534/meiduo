@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+# @Time    : 2021/1/16 下午8:43
+# @Author  : zhongxin
+# @Email   : 490336534@qq.com
+# @File    : dev.py
+# 开发阶段的配置文件
+
 """
 Django settings for meriduo_mall project.
 
