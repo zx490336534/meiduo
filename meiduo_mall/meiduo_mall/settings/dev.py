@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'  # cors,
+    'corsheaders',  # cors,
     'rest_framework',  # DRF
-    'users.apps.UsersConfig'  # 用户模块
+    'users.apps.UsersConfig',  # 用户模块
 ]
 
 MIDDLEWARE = [
