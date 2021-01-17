@@ -1,10 +1,12 @@
 import random
 
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_redis import get_redis_connection
-from meriduo_mall.libs.yuntongxun.sms import CCP
+import logging
+from meiduo_mall.libs.yuntongxun.sms import CCP
+
+logger = logging.getLogger('django')
 
 
 class SMSCodeView(APIView):
@@ -13,6 +15,7 @@ class SMSCodeView(APIView):
     def get(self, request, mobile):
         # 1. 生成验证码
         sms_code = '%06d' % random.randint(0, 999999)
+        logger.info(sms_code)
         # 2. 创建redis连接对象
         redis_conn = get_redis_connection('verify_codes')
         # 3. 把验证码存储到redis数据库
