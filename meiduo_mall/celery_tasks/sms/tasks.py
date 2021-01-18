@@ -5,9 +5,8 @@
 # @File    : tasks.py
 # 发送短信的异步任务
 from celery_tasks.main import celery_app
-from meiduo_mall.libs.yuntongxun.sms import CCP
-
-from meiduo_mall.apps.verifications import constants
+from celery_tasks.sms.yuntongxun.sms import CCP
+from celery_tasks.sms import constants
 
 
 # 装饰器将send_sms_code装饰为异步任务,并设置别名
@@ -20,4 +19,4 @@ def send_sms_code(mobile, sms_code):
     :return: None
     """
 
-    CCP().send_template_sms(mobile, [sms_code, constants.SMS_CODE_REDIS_EXPIRES // 60], constants.SEND_SMS_TEMPLATE_ID)
+    CCP().send_template_sms(mobile, [sms_code, constants.SMS_CODE_REDIS_EXPIRES // 60], 1)
