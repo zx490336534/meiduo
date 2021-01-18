@@ -4,6 +4,5 @@
 # @Email   : 490336534@qq.com
 # @File    : constants.py
 
-SMS_CODE_REDIS_EXPIRES = 300 # 短信验证码有效期 300秒
-SEND_SMS_CODE_INTERVAL = 60 # 短信是否发送过的标记
-SMS_CODE_TEMPLATE_ID=
+SMS_CODE_REDIS_EXPIRES = 300  # 短信验证码有效期 300秒
+SEND_SMS_CODE_INTERVAL = 60  # 短信是否发送过的标记
