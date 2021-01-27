@@ -66,6 +66,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         redis_conn = get_redis_connection('verify_codes')
         mobile = data['mobile']
         real_sms_code = redis_conn.get('sms_%s' % mobile)
+        # 向redis存储数据时都是以字符串进行存储的，取出来后都是bytes类型
         if real_sms_code is None:
             raise serializers.ValidationError('无效的短信验证码')
         if data['sms_code'] != real_sms_code.decode():
@@ -80,8 +81,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
         del validated_data['password2']
         del validated_data['sms_code']
         del validated_data['allow']
-        user = User.objects.create(**validated_data)
-        # 调用django的认证系统加密密码
-        user.set_password(validated_data['password'])
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)  # 把密码加密后再赋值给user的password属性
         user.save()
         return user
