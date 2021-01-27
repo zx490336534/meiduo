@@ -1,4 +1,5 @@
 from rest_framework.generics import CreateAPIView
+from .serializers import CreateUserSerializer
 
 
 class UserView(CreateAPIView):
