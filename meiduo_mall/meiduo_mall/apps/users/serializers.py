@@ -22,10 +22,11 @@ class CreateUserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(label='确认密码', write_only=True)
     sms_code = serializers.CharField(label='验证码', write_only=True)
     allow = serializers.CharField(label='同意协议', write_only=True)
+    token = serializers.CharField(label='token', read_only=True)
 
     class Meta:
         model = User  # 从User模型中映射序列化器字段
-        fields = ['id', 'username', 'password', 'password2', 'mobile', 'sms_code', 'allow']
+        fields = ['id', 'username', 'password', 'password2', 'mobile', 'sms_code', 'allow', 'token']
         extra_kwargs = {  # 修改字段选项
             'username': {
                 'min_length': 5,
@@ -85,4 +86,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user = User(**validated_data)
         user.set_password(password)  # 把密码加密后再赋值给user的password属性
         user.save()
+        from rest_framework_jwt.settings import api_settings
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
+        user.token = token
         return user
