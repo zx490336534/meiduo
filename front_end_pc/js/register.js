@@ -35,8 +35,8 @@ var vm = new Vue({
             // 检查重名
             if (this.error_name === false) {
                 axios.get(this.host + '/usernames/' + this.username + '/count/', {
-                    responseType: 'json'
-                })
+                        responseType: 'json'
+                    })
                     .then(response => {
                         if (response.data.count > 0) {
                             this.error_name_message = '用户名已存在';
@@ -76,8 +76,8 @@ var vm = new Vue({
             }
             if (this.error_phone === false) {
                 axios.get(this.host + '/mobiles/' + this.mobile + '/count/', {
-                    responseType: 'json'
-                })
+                        responseType: 'json'
+                    })
                     .then(response => {
                         if (response.data.count > 0) {
                             this.error_phone_message = '手机号已存在';
@@ -126,8 +126,8 @@ var vm = new Vue({
 
             // 向后端接口发送请求，让后端发送短信验证码
             axios.get(this.host + '/sms_codes/' + this.mobile + '/', {
-                responseType: 'json'
-            })
+                    responseType: 'json'
+                })
                 .then(response => {
                     // 表示后端发送短信成功
                     // 倒计时60秒，60秒后允许用户再次点击发送短信验证码的按钮
@@ -167,18 +167,18 @@ var vm = new Vue({
             this.check_phone();
             this.check_sms_code();
             this.check_allow();
-            if (this.error_name === false && this.error_password === false && this.error_check_password === false
-                && this.error_phone === false && this.error_sms_code === false && this.error_allow === false) {
+            if (this.error_name === false && this.error_password === false && this.error_check_password === false &&
+                this.error_phone === false && this.error_sms_code === false && this.error_allow === false) {
                 axios.post(this.host + '/users/', {
-                    username: this.username,
-                    password: this.password,
-                    password2: this.password2,
-                    mobile: this.mobile,
-                    sms_code: this.sms_code,
-                    allow: this.allow.toString()
-                }, {
-                    responseType: 'json'
-                })
+                        username: this.username,
+                        password: this.password,
+                        password2: this.password2,
+                        mobile: this.mobile,
+                        sms_code: this.sms_code,
+                        allow: this.allow.toString()
+                    }, {
+                        responseType: 'json'
+                    })
                     .then(response => {
                         // 记录用户的登录状态
                         sessionStorage.clear();
