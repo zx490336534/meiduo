@@ -16,7 +16,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     # 序列化器的所有字段: ['id', 'username', 'password', 'password2', 'mobile', 'sms_code', 'allow']
     # 序列化器需要校验的所有字段: ['username', 'password', 'password2', 'mobile', 'sms_code', 'allow']
     # 模型中已存在的字段 ['username', 'password', 'mobile']
-    # 需要序列化的字段 ['id', 'username', 'mobile']
+    # 需要序列化的字段 ['id', 'username', 'mobile', 'token']
     # 需要反序列化的字段 ['username', 'password', 'password2', 'mobile', 'sms_code', 'allow']
 
     password2 = serializers.CharField(label='确认密码', write_only=True)
@@ -87,9 +87,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.set_password(password)  # 把密码加密后再赋值给user的password属性
         user.save()
         from rest_framework_jwt.settings import api_settings
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-        payload = jwt_payload_handler(user)
-        token = jwt_encode_handler(payload)
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER  # 引用jwt中的jwt_payload_handler函数(生成payload)
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER  # 函数引用 生成jwt
+        payload = jwt_payload_handler(user)  # 根据user生成用户相关的载荷
+        token = jwt_encode_handler(payload) # 传入载荷生成完整的jwt
         user.token = token
         return user
