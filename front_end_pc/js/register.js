@@ -74,7 +74,7 @@ var vm = new Vue({
                 this.error_phone_message = '您输入的手机号格式不正确';
                 this.error_phone = true;
             }
-            if (this.error_phone == false) {
+            if (this.error_phone === false) {
                 axios.get(this.host + '/mobiles/' + this.mobile + '/count/', {
                     responseType: 'json'
                 })
