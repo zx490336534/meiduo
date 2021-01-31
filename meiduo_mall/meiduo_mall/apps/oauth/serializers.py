@@ -36,7 +36,7 @@ class QQAuthUserSerializer(serializers.Serializer):
         sms_code = data['sms_code']
         redis_conn = get_redis_connection('verify_code')
         real_sms_code = redis_conn.get('sms_%s' % mobile)
-        if real_sms_code.decode() != sms_code:
+        if real_sms_code is None or real_sms_code.decode() != sms_code:
             raise serializers.ValidationError('短信验证码错误')
 
         # 如果用户存在，检查用户密码
