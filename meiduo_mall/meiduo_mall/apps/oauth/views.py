@@ -9,6 +9,7 @@ from rest_framework_jwt.settings import api_settings
 
 from oauth.models import OAuthQQUser
 from oauth.utils import generate_save_user_token
+from . import serializers
 
 logger = logging.getLogger('django')
 
@@ -84,3 +85,24 @@ class QQAuthUserView(APIView):
                 'user_id': user.id,
                 'username': user.username
             })
+
+    def post(self, request):
+        """使用open_id绑定美多用户"""
+        # 获取序列化器对象
+        serializer = serializers.QQAuthUserSerializer(data=request.data)
+        # 开启校验
+        serializer.is_valid(raise_exception=True)
+        # 保存校验结果，并接收
+        user = serializer.save()
+
+        # 生成JWT token，并响应
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
+
+        return Response({
+            'token': token,
+            'username': user.username,
+            'user_id': user.id
+        })
