@@ -5,8 +5,10 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_jwt.settings import api_settings
 
 from oauth.models import OAuthQQUser
+from oauth.utils import generate_save_user_token
 
 logger = logging.getLogger('django')
 
@@ -64,7 +66,21 @@ class QQAuthUserView(APIView):
             oauthqquser_model = OAuthQQUser.objects.get(openid=openid)
         except OAuthQQUser.DoesNotExist:
             # 如果openid没绑定美多商城用户，创建用户并绑定到openid
-            pass
+            # 为了能够在后续的绑定用户操作中前端可以使用openid，在这里将openid签名后响应给前端
+            access_token_openid = generate_save_user_token(openid)
+            return Response({'access_token': access_token_openid})
         else:
             # 如果openid已绑定美多商城用户，直接生成JWT token，并返回
-            pass
+            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+            # 获取oauth_user关联的user
+            user = oauthqquser_model.user
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+
+            return Response({
+                'token': token,
+                'user_id': user.id,
+                'username': user.username
+            })

@@ -8,5 +8,8 @@ from . import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
+    # 拼接QQ登录URL
     url(r'^qq/authorization/$', views.QQAuthURLView.as_view()),
+    # QQ登录后的回调
+    url(r'^qq/user/$', views.QQAuthUserView.as_view()),
 ]

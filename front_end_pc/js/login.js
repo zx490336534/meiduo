@@ -95,5 +95,5 @@ var vm = new Vue({
                     console.log(error.response.data);
                 })
         }
-    }
+    },
 });
