@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('verifications.urls')),  # 发短信模块
-    url(r'^', include('users.urls'))  # 用户模块
+    url(r'^', include('users.urls')),  # 用户模块
+    url(r'^oauth/', include('oauth.urls')),
 ]

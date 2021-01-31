@@ -6,7 +6,7 @@
 import re
 
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
+from .models import User
 
 
 def jwt_response_payload_handler(token, user=None, request=None):
