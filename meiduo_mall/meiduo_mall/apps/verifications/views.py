@@ -25,7 +25,7 @@ class SMSCodeView(APIView):
             return Response({"message": "发送短信过于频繁"}, status=status.HTTP_400_BAD_REQUEST)
         # 4. 生成验证码
         sms_code = '%06d' % random.randint(0, 999999)
-        logger.debug(sms_code)
+        logger.info(sms_code)
 
         # 创建redis管道 把多次redis操作装入管道中，将来一次性去执行，减少redis连接操作
         pl = redis_conn.pipeline()
